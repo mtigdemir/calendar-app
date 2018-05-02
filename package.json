@@ -19,7 +19,7 @@
         "popper.js": "^1.12"
     },
     "dependencies": {
-        "fontawesome": "^4.7.2",
+        "font-awesome-sass": "^4.7.0",
         "fullcalendar": "^3.9.0"
     }
 }
