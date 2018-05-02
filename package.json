@@ -17,5 +17,9 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
         "popper.js": "^1.12"
+    },
+    "dependencies": {
+        "font-awesome-sass": "^4.7.0",
+        "fullcalendar": "^3.9.0"
     }
 }
