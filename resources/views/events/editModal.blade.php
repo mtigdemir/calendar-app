@@ -19,13 +19,13 @@
                         <input name="date" class="form-control" id="eventDate"/>
                     </div>
                     <input type="hidden" id="eventId">
-                    <input name="_method" type="hidden" value="PUT">
                 </form>
             </div>
             <div class="alert alert-info text-center" style="display: none;" id="responseMessage"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button id="eventUpdateButton" type="button" class="btn btn-primary">Update Event</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button id="eventUpdateButton" type="button" class="btn btn-warning">Update Event</button>
+                <button id="eventDeleteButton" type="button" class="btn btn-danger">Delete Event</button>
             </div>
         </div>
     </div>

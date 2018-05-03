@@ -38,18 +38,37 @@ $('.events-calendar').fullCalendar({
 });
 
 $('#eventUpdateButton').click(function () {
-    var eventId = $("#eventId").val();
+    var request = $("#eventEditForm").serializeArray();
+    var eventId = $('#eventId').val();
+    request.push({name: '_method', value: "PUT"});
 
-    console.log($("#eventEditForm"));
-    console.log($("#eventEditForm").serializeArray());
     $.ajax({
-        url: 'events/'+eventId,
+        url: 'events/' + eventId,
         type: 'POST',
-        data: $("#eventEditForm").serializeArray(),
-        success: function(response) {
+        data: request,
+        success: function (response) {
             $("#responseMessage").show().html("Updated!");
             location.reload();
-        },error: function (response) {
+        }, error: function (response) {
+            var r = jQuery.parseJSON(response.responseText);
+            $("#responseMessage").show().html(r.message);
+        }
+    });
+});
+
+$('#eventDeleteButton').click(function () {
+    var request = $("#eventEditForm").serializeArray();
+    var eventId = $('#eventId').val();
+    request.push({name: '_method', value: "DELETE"});
+
+    $.ajax({
+        url: 'events/' + eventId,
+        type: 'POST',
+        data: request,
+        success: function (response) {
+            $("#responseMessage").show().html("Deleted!");
+            location.reload();
+        }, error: function (response) {
             var r = jQuery.parseJSON(response.responseText);
             $("#responseMessage").show().html(r.message);
         }
