@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Event;
-use Illuminate\Auth\Access\AuthorizationException;
 use Tests\TestCase;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EventFeatureTest extends TestCase
@@ -27,7 +27,7 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => 555]);
 
         $result = $this->actingAs($this->user)
-            ->delete('events/' . $event->id)
+            ->delete('events/'.$event->id)
             ->exception;
 
         $this->assertInstanceOf(AuthorizationException::class, $result);
@@ -39,7 +39,7 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => $this->user->id]);
 
         $result = $this->actingAs($this->user)
-            ->delete('events/' . $event->id)
+            ->delete('events/'.$event->id)
             ->decodeResponseJson();
 
         $this->assertTrue($result['status']);
@@ -51,9 +51,9 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => 999]);
 
         $result = $this->actingAs($this->user)
-            ->put('events/' . $event->id, [
+            ->put('events/'.$event->id, [
                 'title' => 'updated-title',
-                'date' => '2020-01-01'
+                'date' => '2020-01-01',
             ])->exception;
 
         $this->assertInstanceOf(AuthorizationException::class, $result);
@@ -65,9 +65,9 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => $this->user->id]);
 
         $result = $this->actingAs($this->user)
-            ->put('events/' . $event->id, [
+            ->put('events/'.$event->id, [
                 'title' => 'updated-title',
-                'date' => '2020-01-01'
+                'date' => '2020-01-01',
             ])->decodeResponseJson();
 
         $this->assertEquals('updated-title', $result['title']);
@@ -80,8 +80,8 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => $this->user->id]);
 
         $result = $this->actingAs($this->user)
-            ->put('events/' . $event->id, [
-                'date' => 'wrong-data'
+            ->put('events/'.$event->id, [
+                'date' => 'wrong-data',
             ])->exception->getMessage();
 
         $this->assertEquals('The given data was invalid.', $result);

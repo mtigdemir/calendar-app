@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Http\Requests\EventUpdate;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventCreate;
+use App\Http\Requests\EventUpdate;
 
 class EventController extends Controller
 {
-
     /**
      * EventController constructor.
      */
@@ -68,7 +67,7 @@ class EventController extends Controller
 
         $event->update([
             'title' => $request->get('title'),
-            'date' => $request->get('date')
+            'date' => $request->get('date'),
         ]);
 
         return response()->json($event);
@@ -83,7 +82,7 @@ class EventController extends Controller
     {
         $this->authorize('destroy', $event);
 
-        $status = (boolean)$event->delete();
+        $status = (bool) $event->delete();
 
         return response()->json(['status' => $status]);
     }
