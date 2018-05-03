@@ -9,10 +9,10 @@
             @csrf
             <div class="row">
                 <div class="col">
-                    <input type="text" name="title"  class="form-control" placeholder="First name">
+                    <input type="text" name="title"  class="form-control" placeholder="Title">
                 </div>
                 <div class="col">
-                    <input type="date" name="date" class="form-control" placeholder="Last name">
+                    <input type="date" name="date" class="form-control" placeholder="Event Date">
                 </div>
             </div>
 
