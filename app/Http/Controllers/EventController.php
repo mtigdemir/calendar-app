@@ -66,9 +66,10 @@ class EventController extends Controller
     {
         $this->authorize('update', $event);
 
-        $event->title = $request->get('title');
-        $event->date = $request->get('date');
-        $event->save();
+        $event->update([
+            'title' => $request->get('title'),
+            'date' => $request->get('date')
+        ]);
 
         return response()->json($event);
     }

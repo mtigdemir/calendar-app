@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Event;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -18,6 +19,34 @@ class EventFeatureTest extends TestCase
         parent::setUp();
         $this->refreshDatabase();
         $this->user = factory(User::class)->create();
+    }
+
+    public function testUserCanUpdateEventTitleAndDate()
+    {
+        // Insert Current User Events
+        $event = factory(Event::class)->create(['user_id' => $this->user->id]);
+
+        $result = $this->actingAs($this->user)
+            ->put('events/' . $event->id, [
+                'title' => 'updated-title',
+                'date' => '2020-01-01'
+            ])->decodeResponseJson();
+
+        $this->assertEquals('updated-title', $result['title']);
+        $this->assertEquals('2020-01-01', $result['date']);
+    }
+
+    public function testEventUpdateValidation()
+    {
+        // Insert Current User Events
+        $event = factory(Event::class)->create(['user_id' => $this->user->id]);
+
+        $result = $this->actingAs($this->user)
+            ->put('events/' . $event->id, [
+                'date' => 'wrong-data'
+            ])->exception->getMessage();
+
+        $this->assertEquals('The given data was invalid.', $result);
     }
 
     public function testEventListDateFormatShouldBeYmd()
