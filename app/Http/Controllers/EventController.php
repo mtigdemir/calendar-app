@@ -9,7 +9,6 @@ use App\Http\Requests\EventCreate;
 
 class EventController extends Controller
 {
-    protected $user;
 
     /**
      * EventController constructor.
@@ -20,9 +19,8 @@ class EventController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -36,9 +34,7 @@ class EventController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -46,10 +42,8 @@ class EventController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param EventCreate $eventCreate
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(EventCreate $eventCreate)
     {
@@ -62,6 +56,12 @@ class EventController extends Controller
         return back()->with('message', 'Success!');
     }
 
+    /**
+     * @param EventUpdate $request
+     * @param Event $event
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(EventUpdate $request, Event $event)
     {
         $this->authorize('update', $event);
@@ -74,6 +74,11 @@ class EventController extends Controller
         return response()->json($event);
     }
 
+    /**
+     * @param Event $event
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function destroy(Event $event)
     {
         $this->authorize('destroy', $event);
