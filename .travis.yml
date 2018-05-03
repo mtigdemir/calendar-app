@@ -2,6 +2,16 @@ language: php
 php:
   - 7.1.9
 
+env:
+  global:
+    - setup=basic
+    - APP_ENV=staging
+    - APP_DEBUG=true
+    - DB_CONNECTION=sqlite
+    - CACHE_DRIVER=file
+    - SESSION_DRIVER=file
+    - QUEUE_DRIVER=sync
+
 before_script:
   - composer install --no-interaction
 
