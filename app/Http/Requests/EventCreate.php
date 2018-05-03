@@ -26,7 +26,6 @@ class EventCreate extends FormRequest
         return [
             'title' => 'required',
             'date' => 'required'
-//            'date' => 'required|date_format:y-m-d'
         ];
     }
 }
