@@ -77,6 +77,7 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         $this->authorize('destroy', $event);
+
         $status = (boolean)$event->delete();
 
         return response()->json(['status' => $status]);
