@@ -17,11 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::put('asd',function (){
-   return response()->json('dd');
+Route::put('asd', function () {
+    return response()->json('dd');
 });
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resources([
-    'events' => 'EventController',
-]);
+Route::resource('events', 'EventController')->except('show');
