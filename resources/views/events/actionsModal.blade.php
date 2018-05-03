@@ -1,4 +1,4 @@
-<div class="modal fade" id="eventEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="eventActionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -16,7 +16,13 @@
                     </div>
                     <div class="form-group">
                         <label for="eventDate" class="col-form-label">Date:</label>
-                        <input name="date" class="form-control" id="eventDate"/>
+                        <div class="input-group datetimepicker-input" id="datetimepickerModal" data-target-input="nearest">
+                            <input id="eventDate" name="date" type="text" class="form-control"
+                                   data-target="#datetimepickerModal" placeholder="Event Date" required/>
+                            <div class="input-group-append" data-target="#datetimepickerModal" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
                     </div>
                     <input type="hidden" id="eventId">
                 </form>

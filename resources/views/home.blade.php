@@ -1,26 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in
-                </div>
-
-                <p></p>
+    <div class="row">
+        <div class="col-7">
+            <div class="card-header bg-light">
+                My Events Calendar
+            </div>
+            <div class="card-body">
                 <div class="events-calendar"></div>
             </div>
         </div>
+        <div class="col-5">
+            @include('events.create')
+        </div>
     </div>
 
-    @include('events.editModal')
+    @include('events.actionsModal')
 @endsection
