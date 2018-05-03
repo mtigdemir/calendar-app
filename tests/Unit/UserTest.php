@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Event;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Event;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {

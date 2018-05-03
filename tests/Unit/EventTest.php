@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Event;
 use App\User;
+use App\Event;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

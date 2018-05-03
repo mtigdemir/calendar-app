@@ -25,7 +25,7 @@ class EventCreate extends FormRequest
     {
         return [
             'title' => 'required',
-            'date' => 'required'
+            'date' => 'required',
         ];
     }
 }

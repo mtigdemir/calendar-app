@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Http\Requests\EventCreate;
 use Illuminate\Http\Request;
+use App\Http\Requests\EventCreate;
 
 class EventController extends Controller
 {
-
     protected $user;
 
     /**
@@ -19,7 +18,6 @@ class EventController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +27,7 @@ class EventController extends Controller
     {
         $events = $request->user()->events()->get([
             'title',
-            'date'
+            'date',
         ]);
 
         return response()->json($events->toArray());
@@ -56,7 +54,7 @@ class EventController extends Controller
         Event::create([
             'user_id' => \auth()->user()->getAuthIdentifier(),
             'title' => $eventCreate->get('title'),
-            'date' => $eventCreate->get('date')
+            'date' => $eventCreate->get('date'),
         ]);
 
         return back()->with('message', 'Success!');
