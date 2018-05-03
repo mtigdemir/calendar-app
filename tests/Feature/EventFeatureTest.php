@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Event;
 use App\User;
+use App\Event;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -42,7 +42,7 @@ class EventFeatureTest extends TestCase
             ->assertDontSee('deleted_at')
             ->assertJsonStructure(
                 [
-                    ['title', 'date']
+                    ['title', 'date'],
                 ]);
     }
 
@@ -73,7 +73,7 @@ class EventFeatureTest extends TestCase
         $this->actingAs($this->user)
             ->post('events', [
                 'title' => 'Title',
-                'date' => '10-10-2016'
+                'date' => '10-10-2016',
             ])
             ->assertSessionHas('message', 'Success!');
     }
