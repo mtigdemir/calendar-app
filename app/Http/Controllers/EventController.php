@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
 
+    protected $user;
+
+    /**
+     * EventController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -17,27 +28,34 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        }
+
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(EventCreate $eventCreate)
+    public function create()
     {
-        return Event::create($eventCreate->request->all());
+        return view('events.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param EventCreate $eventCreate
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventCreate $eventCreate)
     {
-        //
+        Event::create([
+            'user_id' => \auth()->user()->getAuthIdentifier(),
+            'title' => $eventCreate->get('title'),
+            'date' => $eventCreate->get('date')
+        ]);
+
+        return back()->with('message', 'Success!');
     }
 
     /**
