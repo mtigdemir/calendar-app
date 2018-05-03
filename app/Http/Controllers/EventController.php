@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Http\Requests\EventUpdate;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventCreate;
 
@@ -26,6 +27,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $events = $request->user()->events()->get([
+            'id',
             'title',
             'date',
         ]);
@@ -60,38 +62,15 @@ class EventController extends Controller
         return back()->with('message', 'Success!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(EventUpdate $request, Event $event)
     {
-        //
-    }
+        $this->authorize('update', $event);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $event->title = $request->get('title');
+        $event->date = $request->get('date');
+        $event->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return response()->json($event);
     }
 
     /**

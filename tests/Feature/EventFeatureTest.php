@@ -42,7 +42,7 @@ class EventFeatureTest extends TestCase
             ->assertDontSee('deleted_at')
             ->assertJsonStructure(
                 [
-                    ['title', 'date'],
+                    ['id', 'title', 'date'],
                 ]);
     }
 
