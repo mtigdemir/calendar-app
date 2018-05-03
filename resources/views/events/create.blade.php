@@ -3,9 +3,6 @@
 @section('content')
 
 <div class="row">
-    <?php
-    echo auth()->user()->events()->get();
-    ?>
     <div class="col-lg">
         <h2>Create New Event</h2>
         <form method="post" action="{{@route('events.store')}}">
