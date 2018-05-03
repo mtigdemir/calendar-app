@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\User;
 use App\Event;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
