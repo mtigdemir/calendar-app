@@ -14,4 +14,9 @@ class EventPolicy
     {
         return $user->id == $event->user_id;
     }
+
+    public function destroy(User $user, Event $event)
+    {
+        return $user->id == $event->user_id;
+    }
 }

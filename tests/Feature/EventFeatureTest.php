@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Event;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,44 @@ class EventFeatureTest extends TestCase
         parent::setUp();
         $this->refreshDatabase();
         $this->user = factory(User::class)->create();
+    }
+
+    public function testUserEventDeletePolicy()
+    {
+        // Insert Current User Events
+        $event = factory(Event::class)->create(['user_id' => 555]);
+
+        $result = $this->actingAs($this->user)
+            ->delete('events/' . $event->id)
+            ->exception;
+
+        $this->assertInstanceOf(AuthorizationException::class, $result);
+    }
+
+    public function testUserEventDelete()
+    {
+        // Insert Current User Events
+        $event = factory(Event::class)->create(['user_id' => $this->user->id]);
+
+        $result = $this->actingAs($this->user)
+            ->delete('events/' . $event->id)
+            ->decodeResponseJson();
+
+        $this->assertTrue($result['status']);
+    }
+
+    public function testEventUpdatePolicy()
+    {
+        // Insert Event with Different User ID
+        $event = factory(Event::class)->create(['user_id' => 999]);
+
+        $result = $this->actingAs($this->user)
+            ->put('events/' . $event->id, [
+                'title' => 'updated-title',
+                'date' => '2020-01-01'
+            ])->exception;
+
+        $this->assertInstanceOf(AuthorizationException::class, $result);
     }
 
     public function testUserCanUpdateEventTitleAndDate()
