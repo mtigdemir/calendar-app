@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Http\Requests\EventCreate;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -28,7 +27,12 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
+        $events = $request->user()->events()->get([
+            'title',
+            'date'
+        ]);
 
+        return response()->json($events->toArray());
     }
 
     /**

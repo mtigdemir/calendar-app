@@ -4,6 +4,7 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
+// Bootstrap
 require('./bootstrap');
 
 // Full Calendar
@@ -18,5 +19,5 @@ $('.events-calendar').fullCalendar({
     },
     weekNumbers: true,
     eventLimit: true, // allow "more" link when too many events
-    events: '/api/v1/events'
+    events: '/events'
 });

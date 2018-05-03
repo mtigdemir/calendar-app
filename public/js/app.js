@@ -30076,6 +30076,7 @@ module.exports = __webpack_require__(162);
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
+// Bootstrap
 __webpack_require__(137);
 
 // Full Calendar
@@ -30090,7 +30091,7 @@ $('.events-calendar').fullCalendar({
     },
     weekNumbers: true,
     eventLimit: true, // allow "more" link when too many events
-    events: '/api/v1/events'
+    events: '/events'
 });
 
 /***/ }),

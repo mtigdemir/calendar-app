@@ -8,10 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MainPageTest extends TestCase
 {
-    public function testExample()
+    public function testRootUriShouldRedirectToLogin()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->get('/')->assertRedirect('login');
     }
 }
