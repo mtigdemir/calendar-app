@@ -20,6 +20,32 @@ class EventFeatureTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
+    public function testEventListDateFormatShouldBeYmd()
+    {
+        $event = factory(Event::class)->create(['user_id' => $this->user->id]);
+        $eventDate = date('Y-m-d', strtotime($event->date));
+
+        $this->actingAs($this->user)
+            ->get('events')
+            ->assertSee($eventDate);
+    }
+
+    public function testEventListShouldIncludeTitleAndDate()
+    {
+        factory(Event::class)->create(['user_id' => $this->user->id]);
+
+        $this->actingAs($this->user)
+            ->get('events')
+            ->assertDontSee('user_id')
+            ->assertDontSee('created_at')
+            ->assertDontSee('updated_at')
+            ->assertDontSee('deleted_at')
+            ->assertJsonStructure(
+                [
+                    ['title', 'date']
+                ]);
+    }
+
     public function testUserCanSeeOwnEvents()
     {
         // Insert Current User Events
