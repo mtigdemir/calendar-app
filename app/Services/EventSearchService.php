@@ -1,11 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace App\Services;
 
-
-use App\Contracts\EventSearchInterface;
 use App\Event;
+use App\Contracts\EventSearchInterface;
 
 class EventSearchService implements EventSearchInterface
 {

@@ -25,7 +25,7 @@ class EventSearch extends FormRequest
     {
         return [
             'start' => 'required|date',
-            'end' => 'required|date'
+            'end' => 'required|date',
         ];
     }
 }

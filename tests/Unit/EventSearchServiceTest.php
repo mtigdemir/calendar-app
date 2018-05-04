@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Contracts\EventSearchInterface;
-use App\Event;
-use App\Services\EventSearchService;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Event;
 use Tests\TestCase;
+use App\Services\EventSearchService;
+use App\Contracts\EventSearchInterface;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EventSearchServiceTest extends TestCase
 {
@@ -25,7 +27,6 @@ class EventSearchServiceTest extends TestCase
         $this->refreshDatabase();
         $this->user = factory(User::class)->create();
         $this->eventSearchService = new EventSearchService();
-
     }
 
     public function testGetUserEventsShouldReturnExactDates()
@@ -66,7 +67,7 @@ class EventSearchServiceTest extends TestCase
 
         return factory(Event::class)->create([
             'user_id' => $this->user->id,
-            'date' => $date
+            'date' => $date,
         ]);
     }
 
