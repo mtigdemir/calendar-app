@@ -77,7 +77,7 @@ class EventFeatureTest extends TestCase
     public function testEventUpdateValidation()
     {
         // Insert Current User Events
-        $event = factory(Event::class)->create(['user_id' => $this->user->id]);
+        $event = $this->createEventForToday();
 
         $result = $this->actingAs($this->user)
             ->put('events/'.$event->id, [
@@ -89,42 +89,53 @@ class EventFeatureTest extends TestCase
 
     public function testEventListDateFormatShouldBeYmd()
     {
-        $event = factory(Event::class)->create(['user_id' => $this->user->id]);
-        $eventDate = date('Y-m-d', strtotime($event->date));
+        $this->createEventForToday();
+        $result = $this->eventListCall()->getContent();
 
-        $this->actingAs($this->user)
-            ->get('events')
-            ->assertSee($eventDate);
+        $regex = '/'.date('Y-m-d').'/';
+        $this->assertRegexp($regex, $result);
     }
 
     public function testEventListShouldIncludeTitleAndDate()
     {
-        factory(Event::class)->create(['user_id' => $this->user->id]);
+        $this->createEventForToday();
 
-        $this->actingAs($this->user)
-            ->get('events')
+        $result = $this->eventListCall()
             ->assertDontSee('user_id')
             ->assertDontSee('created_at')
             ->assertDontSee('updated_at')
             ->assertDontSee('deleted_at')
-            ->assertJsonStructure(
-                [
-                    ['id', 'title', 'date'],
-                ]);
+            ->json();
+
+        // Revert First Element of the Json Response
+        $result = json_decode($result, true)[0];
+
+        // id, title, date should be exists for each element
+        $this->assertArrayHasKey('id', $result);
+        $this->assertArrayHasKey('title', $result);
+        $this->assertArrayHasKey('date', $result);
+
+        // user_id, created_at, updated_at, deleted_at should be hidden
+        $this->assertArrayNotHasKey('user_id', $result);
+        $this->assertArrayNotHasKey('created_at', $result);
+        $this->assertArrayNotHasKey('updated_at', $result);
+        $this->assertArrayNotHasKey('deleted_at', $result);
     }
 
     public function testUserCanSeeOwnEvents()
     {
         // Insert Current User Events
-        factory(Event::class)->create(['user_id' => $this->user->id]);
-        factory(Event::class)->create(['user_id' => $this->user->id]);
+        $this->createEventForToday();
+        $this->createEventForToday();
 
         // Insert different user event
-        factory(Event::class)->create(['user_id' => 9999]);
+        $this->createEventForToday(9999);
 
-        $this->actingAs($this->user)
-            ->get('events')
-            ->assertJsonCount(2);
+        $result = $this->eventListCall()
+            ->assertSee(date('Y-m-d'))
+            ->json();
+
+        $this->assertEquals(2, count(json_decode($result, true)));
     }
 
     public function testUserCanVisitNewEventPage()
@@ -165,5 +176,32 @@ class EventFeatureTest extends TestCase
         // Delete
         $response = $this->delete('events');
         $this->assertEquals(405, $response->getStatusCode());
+    }
+
+    private function createEventForToday($userId = null)
+    {
+        // Creating event for different user is useful for testing
+        if ($userId == null) {
+            $userId = $this->user->id;
+        }
+
+        return factory(Event::class)->create(
+            [
+                'user_id' => $userId,
+                'date' => date('Y-m-d'),
+            ]);
+    }
+
+    private function eventListCall($date = null)
+    {
+        if ($date == null) {
+            $date = date('Y-m-d');
+        }
+
+        return $this->actingAs($this->user)
+            ->call('GET', 'events', [
+                'start' => $date,
+                'end' => $date,
+            ]);
     }
 }

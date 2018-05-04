@@ -3,33 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use Illuminate\Http\Request;
 use App\Http\Requests\EventCreate;
+use App\Http\Requests\EventSearch;
 use App\Http\Requests\EventUpdate;
+use App\Contracts\EventSearchInterface;
 
 class EventController extends Controller
 {
     /**
+     * @var EventSearchInterface
+     */
+    protected $eventSearch;
+
+    /**
      * EventController constructor.
      */
-    public function __construct()
+    public function __construct(EventSearchInterface $eventSearch)
     {
         $this->middleware('auth');
+        $this->eventSearch = $eventSearch;
     }
 
     /**
-     * @param Request $request
+     * @param EventSearch $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(EventSearch $request)
     {
-        $events = $request->user()->events()->get([
-            'id',
-            'title',
-            'date',
-        ]);
+        $userId = auth()->id();
+        $fromDate = $request->get('start');
+        $toDate = $request->get('end');
 
-        return response()->json($events->toArray());
+        $events = $this->eventSearch
+            ->getUserEventsByDate($userId, $fromDate, $toDate, [
+                'id',
+                'title',
+                'date',
+            ])->toJson();
+
+        return response()->json($events);
     }
 
     /**
