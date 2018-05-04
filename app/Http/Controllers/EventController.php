@@ -39,7 +39,7 @@ class EventController extends Controller
                 'id',
                 'title',
                 'date',
-            ])->toJson();
+            ])->toArray();
 
         return response()->json($events);
     }
