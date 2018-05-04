@@ -108,7 +108,7 @@ class EventFeatureTest extends TestCase
             ->json();
 
         // Revert First Element of the Json Response
-        $result = json_decode($result, true)[0];
+        $result = $result[0];
 
         // id, title, date should be exists for each element
         $this->assertArrayHasKey('id', $result);
@@ -135,7 +135,7 @@ class EventFeatureTest extends TestCase
             ->assertSee(date('Y-m-d'))
             ->json();
 
-        $this->assertEquals(2, count(json_decode($result, true)));
+        $this->assertEquals(2, count($result));
     }
 
     public function testUserCanVisitNewEventPage()
