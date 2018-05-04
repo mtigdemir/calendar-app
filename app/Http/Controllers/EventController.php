@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\EventSearchInterface;
 use App\Event;
-use App\Http\Requests\EventSearch;
 use App\Http\Requests\EventCreate;
+use App\Http\Requests\EventSearch;
 use App\Http\Requests\EventUpdate;
+use App\Contracts\EventSearchInterface;
 
 class EventController extends Controller
 {
@@ -94,7 +94,7 @@ class EventController extends Controller
     {
         $this->authorize('destroy', $event);
 
-        $status = (bool)$event->delete();
+        $status = (bool) $event->delete();
 
         return response()->json(['status' => $status]);
     }

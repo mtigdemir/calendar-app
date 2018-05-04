@@ -27,7 +27,7 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => 555]);
 
         $result = $this->actingAs($this->user)
-            ->delete('events/' . $event->id)
+            ->delete('events/'.$event->id)
             ->exception;
 
         $this->assertInstanceOf(AuthorizationException::class, $result);
@@ -39,7 +39,7 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => $this->user->id]);
 
         $result = $this->actingAs($this->user)
-            ->delete('events/' . $event->id)
+            ->delete('events/'.$event->id)
             ->decodeResponseJson();
 
         $this->assertTrue($result['status']);
@@ -51,7 +51,7 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => 999]);
 
         $result = $this->actingAs($this->user)
-            ->put('events/' . $event->id, [
+            ->put('events/'.$event->id, [
                 'title' => 'updated-title',
                 'date' => '2020-01-01',
             ])->exception;
@@ -65,7 +65,7 @@ class EventFeatureTest extends TestCase
         $event = factory(Event::class)->create(['user_id' => $this->user->id]);
 
         $result = $this->actingAs($this->user)
-            ->put('events/' . $event->id, [
+            ->put('events/'.$event->id, [
                 'title' => 'updated-title',
                 'date' => '2020-01-01',
             ])->decodeResponseJson();
@@ -80,7 +80,7 @@ class EventFeatureTest extends TestCase
         $event = $this->createEventForToday();
 
         $result = $this->actingAs($this->user)
-            ->put('events/' . $event->id, [
+            ->put('events/'.$event->id, [
                 'date' => 'wrong-data',
             ])->exception->getMessage();
 
@@ -92,7 +92,7 @@ class EventFeatureTest extends TestCase
         $this->createEventForToday();
         $result = $this->eventListCall()->getContent();
 
-        $regex = '/' . date('Y-m-d') . '/';
+        $regex = '/'.date('Y-m-d').'/';
         $this->assertRegexp($regex, $result);
     }
 
@@ -120,7 +120,6 @@ class EventFeatureTest extends TestCase
         $this->assertArrayNotHasKey('created_at', $result);
         $this->assertArrayNotHasKey('updated_at', $result);
         $this->assertArrayNotHasKey('deleted_at', $result);
-
     }
 
     public function testUserCanSeeOwnEvents()
@@ -189,7 +188,7 @@ class EventFeatureTest extends TestCase
         return factory(Event::class)->create(
             [
                 'user_id' => $userId,
-                'date' => date('Y-m-d')
+                'date' => date('Y-m-d'),
             ]);
     }
 
@@ -202,7 +201,7 @@ class EventFeatureTest extends TestCase
         return $this->actingAs($this->user)
             ->call('GET', 'events', [
                 'start' => $date,
-                'end' => $date
+                'end' => $date,
             ]);
     }
 }
